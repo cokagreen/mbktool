@@ -1,0 +1,7 @@
+<!-- 1001.xml -->
+<MSG>
+	<NAME>%s</NAME>
+	<PHONE>%s</PHONE>
+	<IDNO>%s</IDNO>
+	<CARD>%s</CARD>
+</MSG>
