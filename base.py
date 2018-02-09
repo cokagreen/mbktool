@@ -28,6 +28,7 @@ def llist(key_str):
 		if len(sub_str) == 0: continue
 		key_list.append([key for key in sub_str.split()])
 	return key_list
+#llist = lambda x:[i.split() for i in x.split('\n') if len(i) > 0]
 
 def flist(filename):
 	key_list = []
