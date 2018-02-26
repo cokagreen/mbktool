@@ -1,8 +1,5 @@
 # mbktool
 
-# base
-base func
-
 # sendxml
 send xml file 
 
@@ -11,3 +8,6 @@ MBK test tool
 
 # opentrans
 MBK open trans tool
+
+# legaltest
+MBK legal test

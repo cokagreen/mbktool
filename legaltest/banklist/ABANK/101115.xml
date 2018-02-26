@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<directBank>
+	<head>
+		<msgDate>%s</msgDate>
+		<msgTime>%s</msgTime>
+		<transTime>%s</transTime>
+		<chnlDate>%s</chnlDate>
+		<chnlTrcNo>%s</chnlTrcNo>
+		<txBrNo>%s</txBrNo>
+		<bankCode>%s</bankCode>
+	</head>
+	<msg>
+		<transCode>101115</transCode>
+		<card>%s</card>
+		<Name>%s</Name>
+		<phone>%s</phone>
+		<IdNo>%s</IdNo>
+	</msg>
+</directBank>

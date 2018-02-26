@@ -1,0 +1,71 @@
+#!/usr/bin/python
+import re
+import os
+import sys
+import time
+import socket
+
+class legaltest():
+	basedir   = './'
+	legallist = os.path.join(basedir, 'legallist')
+	userlist  = os.path.join(basedir, 'userlist')
+
+	def __init__(self, txcode, info, host='localhost', port=12102):
+		port = port if txcode[0] == '1' else 12109
+		user = self.gettrace() + self.getuser(info)
+		txfile = os.path.join(self.basedir, 'banklist/%s/%s.xml' % (user[6], txcode))
+		if not os.path.exists(txfile):
+			txfile = os.path.join(self.basedir, 'banklist/DFBANK/%s.xml' % (txcode))
+		xmlmsg = self.getfile(txfile) % tuple(user)
+                print xmlmsg
+                print self.tx(xmlmsg,host,port)
+		
+	def gettrace(self):
+		msgDate=time.strftime("%Y%m%d")
+		msgTime=time.strftime("%X")
+		transTime=time.strftime("%Y-%m-%d %X")
+		chnlDate=time.strftime("%Y%m%d")
+		chnlTrcNo=chnlDate+'0099'+time.strftime("%s")[-8:]
+		return [msgDate,msgTime,transTime,chnlDate,chnlTrcNo]
+
+	def getfile(self, filename):
+		with open(filename,'r') as fd:
+			return fd.read()
+
+	def getline(self, filename, keyword):
+		r = r'(?im)^.*\b%s\b.*$' % (keyword)
+		l = re.findall(r, self.getfile(filename))
+		if len(l) > 0:
+			return l[0].split()
+		else:
+			print 'Does the user', keyword, 'exists?'
+
+	def getuser(self, info):
+		ul = self.getline(self.userlist, info)
+		ll = self.getline(self.legallist, ul[0][:5]+'.')
+		ul[0] = ll[1]
+		ul.insert(1, ll[2])
+		return ul
+
+	def tx(self, input, host, port):
+		msg=str(len(input)).zfill(8) + input
+		sock = socket.socket()
+		sock.connect((host, port))
+		sock.send(msg)
+		buf = sock.recv(1024*10)
+		sock.close()
+		return buf[8:]
+
+def test():
+	args = sys.argv
+	if len(args) != 3:
+		print 'Usage: test txcode userinfo'
+		exit()
+	else:
+		t = legaltest(args[1], args[2])
+
+try:
+	test()
+except Exception as e:
+	print str(e)
+	print 'user infos error'
